@@ -18,10 +18,16 @@ public class MainManager : MonoBehaviour
     
     private bool m_GameOver = false;
 
+    public GameObject Exit;
+
+
+    public Text DaneText;
     
+
     // Start is called before the first frame update
     void Start()
     {
+        DaneText.text = "Score : " + MainManager1.Instance.hwname + " : " + MainManager1.Instance.maxScore;
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -66,11 +72,26 @@ public class MainManager : MonoBehaviour
     {
         m_Points += point;
         ScoreText.text = $"Score : {m_Points}";
+
+        if (m_Points > MainManager1.Instance.maxScore)
+        {
+            MainManager1.Instance.maxScore = m_Points;
+        }
+        DaneText.text = "Score : " + MainManager1.Instance.hwname + " : " + MainManager1.Instance.maxScore;
+        
+    }
+
+    public void menu()
+    {
+        SceneManager.LoadScene(0);
+        MainManager1.Instance.SaveScore();
     }
 
     public void GameOver()
     {
+        
         m_GameOver = true;
         GameOverText.SetActive(true);
+        Exit.SetActive(true);
     }
 }
